@@ -3,9 +3,18 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Menu, Sprout, X } from "lucide-react";
+import { LayoutDashboard, LogOut, Menu, Sprout, X } from "lucide-react";
 import { Logo } from "@/components/site/logo";
+import { createClient } from "@/lib/supabase/client";
+import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { cn } from "@/lib/utils";
+
+async function signOut() {
+  if (isSupabaseConfigured) {
+    await createClient().auth.signOut();
+  }
+  window.location.href = "/";
+}
 
 const NAV = [
   { href: "/dashboard", label: "Дашборд", icon: LayoutDashboard },
@@ -58,10 +67,20 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           ))}
         </nav>
 
-        <div className="absolute inset-x-4 bottom-4">
-          <div className="rounded-xl border border-line p-3 text-xs text-muted">
-            Демо-режим — данные хранятся в браузере. Подключите Supabase, чтобы синхронизировать.
-          </div>
+        <div className="absolute inset-x-4 bottom-4 space-y-2">
+          {!isSupabaseConfigured && (
+            <div className="rounded-xl border border-line p-3 text-xs text-muted">
+              Демо-режим — данные хранятся в браузере. Подключите Supabase, чтобы синхронизировать.
+            </div>
+          )}
+          <button
+            type="button"
+            onClick={signOut}
+            className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted transition-colors hover:bg-paper-soft hover:text-ink"
+          >
+            <LogOut className="h-5 w-5" />
+            Выйти
+          </button>
         </div>
       </aside>
 
