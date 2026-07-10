@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Arva 🌱
 
-## Getting Started
+Облачная платформа для умного учёта тепличных хозяйств: интерактивная карта грядок,
+прогноз даты сбора с учётом условий среды и расчёт себестоимости и прибыли.
 
-First, run the development server:
+Доступна на русском, казахском и английском языках.
+
+## Возможности
+
+- **Карта теплиц** — сетка 1 м², выделение грядок прямоугольником, цветовая кодировка культур, сводная таблица.
+- **Калькулятор урожая** — дневной индекс роста `Gi = (1/DaysToMature) × K_hydro × K_temp × K_hum`, прогноз даты сбора и адаптивные сообщения при изменении условий.
+- **Учёт экономики** — `TotalYield = plant_count × avg_fruits × weight × 0.9`, `EstimatedProfit = (TotalYield × PricePerKg) − OperatingCosts`.
+- **Аутентификация** — email/пароль через Supabase Auth, защита приватных маршрутов.
+- **Мультиязычность** — RU / KZ / EN.
+
+## Технологии
+
+Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS v4 · Supabase · Vercel.
+
+## Быстрый старт
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Скрипты:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Команда          | Действие                     |
+| ---------------- | ---------------------------- |
+| `npm run dev`    | Дев-сервер                   |
+| `npm run build`  | Продакшн-сборка              |
+| `npm run start`  | Запуск собранного приложения |
+| `npm run test`   | Юнит-тесты (Vitest)          |
+| `npm run lint`   | ESLint                       |
+| `npm run format` | Prettier                     |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+> Без переменных Supabase приложение работает в **демо-режиме**: данные теплиц
+> хранятся в браузере (localStorage), аутентификация не требуется.
 
-## Learn More
+## Supabase
 
-To learn more about Next.js, take a look at the following resources:
+1. Создайте проект на [supabase.com](https://supabase.com/dashboard).
+2. Скопируйте `.env.example` в `.env.local` и заполните:
+   ```
+   NEXT_PUBLIC_SUPABASE_URL=...
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+   ```
+3. Примените схему и сиды из папки `supabase/`:
+   - `supabase/migrations/0001_init.sql` — таблицы, RLS, триггер профиля;
+   - `supabase/seed.sql` — справочник культур.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   Через SQL-редактор Supabase или CLI: `supabase db push`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Деплой на Vercel
 
-## Deploy on Vercel
+1. Импортируйте репозиторий на [vercel.com/new](https://vercel.com/new) — Next.js определяется автоматически.
+2. Добавьте переменные `NEXT_PUBLIC_SUPABASE_URL` и `NEXT_PUBLIC_SUPABASE_ANON_KEY` в **Settings → Environment Variables**.
+3. Push в `main` → production-деплой; для каждого Pull Request создаётся preview-деплой.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Структура
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+app/            маршруты (лендинг, (auth), (app): dashboard, greenhouses)
+components/     ui/, site/, landing/, app/, map/, dashboard/
+lib/            calc, store, crops, format, i18n/, supabase/
+supabase/       migrations/, seed.sql
+proxy.ts        обновление сессии и защита маршрутов (Next 16)
+```

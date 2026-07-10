@@ -6,11 +6,13 @@ import { useRouter } from "next/navigation";
 import { Info } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { useI18n } from "@/lib/i18n/context";
 import { Button } from "@/components/ui/button";
 import { Input, Label } from "@/components/ui/input";
 
 export default function LoginPage() {
   const router = useRouter();
+  const { t } = useI18n();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -41,19 +43,21 @@ export default function LoginPage() {
 
   return (
     <div className="rounded-3xl border border-line bg-paper p-8 shadow-card">
-      <h1 className="font-display text-2xl font-extrabold tracking-tight text-ink">Вход</h1>
-      <p className="mt-1 text-sm text-muted">Рады видеть вас снова.</p>
+      <h1 className="font-display text-2xl font-extrabold tracking-tight text-ink">
+        {t("auth.loginTitle")}
+      </h1>
+      <p className="mt-1 text-sm text-muted">{t("auth.loginSubtitle")}</p>
 
       {!isSupabaseConfigured && (
         <p className="mt-4 flex items-start gap-2 rounded-xl bg-brand-50 p-3 text-xs text-brand-dark">
           <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-          Supabase не подключён — вход в демо-режиме, данные хранятся в браузере.
+          {t("auth.demoNotice")}
         </p>
       )}
 
       <form onSubmit={submit} className="mt-6 space-y-4">
         <div>
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">{t("auth.email")}</Label>
           <Input
             id="email"
             type="email"
@@ -64,7 +68,7 @@ export default function LoginPage() {
           />
         </div>
         <div>
-          <Label htmlFor="password">Пароль</Label>
+          <Label htmlFor="password">{t("auth.password")}</Label>
           <Input
             id="password"
             type="password"
@@ -78,14 +82,14 @@ export default function LoginPage() {
         {error && <p className="text-sm text-red-600">{error}</p>}
 
         <Button type="submit" className="w-full" disabled={loading}>
-          {loading ? "Входим…" : "Войти"}
+          {loading ? t("auth.signingIn") : t("auth.signIn")}
         </Button>
       </form>
 
       <p className="mt-6 text-center text-sm text-muted">
-        Нет аккаунта?{" "}
+        {t("auth.noAccount")}{" "}
         <Link href="/register" className="font-medium text-brand">
-          Зарегистрироваться
+          {t("auth.registerTitle")}
         </Link>
       </p>
     </div>

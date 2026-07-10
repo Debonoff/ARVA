@@ -1,25 +1,25 @@
+"use client";
+
 import { ArrowRight, CalendarClock, Calculator, Map } from "lucide-react";
 import { IconBadge } from "@/components/ui/icon-badge";
-
-const items = [
-  {
-    icon: Map,
-    title: "Карта теплиц",
-    desc: "Сетка 1 м², выделение грядок, цветовые культуры",
-  },
-  {
-    icon: CalendarClock,
-    title: "Калькулятор урожая",
-    desc: "Дата сбора с учётом температуры и влажности",
-  },
-  {
-    icon: Calculator,
-    title: "Учёт себестоимости",
-    desc: "Прогноз урожайности и прибыли по каждой грядке",
-  },
-];
+import { useI18n } from "@/lib/i18n/context";
 
 export function FeatureRows() {
+  const { t } = useI18n();
+  const items = [
+    { icon: Map, title: t("features.mapTitle"), desc: t("features.mapDesc") },
+    {
+      icon: CalendarClock,
+      title: t("features.calcTitle"),
+      desc: t("features.calcDesc"),
+    },
+    {
+      icon: Calculator,
+      title: t("features.costTitle"),
+      desc: t("features.costDesc"),
+    },
+  ];
+
   return (
     <section id="features" className="mx-auto max-w-6xl px-5 py-8">
       <div className="divide-y divide-line rounded-3xl border border-line bg-paper">

@@ -2,22 +2,14 @@
 
 import { useState } from "react";
 import { Check, ChevronDown, Globe } from "lucide-react";
+import { LOCALES } from "@/lib/i18n/dictionaries";
+import { useI18n } from "@/lib/i18n/context";
 import { cn } from "@/lib/utils";
 
-const LANGS = [
-  { code: "ru", label: "Рус" },
-  { code: "kk", label: "Қаз" },
-  { code: "en", label: "Eng" },
-];
-
-/**
- * Visual language switcher. Real locale routing is wired in the i18n task
- * (#29); for now it reflects the selection in local state.
- */
 export function LanguageSwitcher({ className }: { className?: string }) {
+  const { locale, setLocale } = useI18n();
   const [open, setOpen] = useState(false);
-  const [active, setActive] = useState("ru");
-  const current = LANGS.find((l) => l.code === active) ?? LANGS[0];
+  const current = LOCALES.find((l) => l.code === locale) ?? LOCALES[0];
 
   return (
     <div className={cn("relative", className)}>
@@ -37,18 +29,18 @@ export function LanguageSwitcher({ className }: { className?: string }) {
           className="absolute right-0 z-50 mt-2 w-32 rounded-2xl border border-line bg-paper p-1 shadow-float"
           role="listbox"
         >
-          {LANGS.map((l) => (
+          {LOCALES.map((l) => (
             <li key={l.code}>
               <button
                 type="button"
                 onClick={() => {
-                  setActive(l.code);
+                  setLocale(l.code);
                   setOpen(false);
                 }}
                 className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm hover:bg-paper-soft"
               >
                 {l.label}
-                {active === l.code && <Check className="h-4 w-4 text-brand" />}
+                {locale === l.code && <Check className="h-4 w-4 text-brand" />}
               </button>
             </li>
           ))}

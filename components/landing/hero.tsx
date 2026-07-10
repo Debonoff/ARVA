@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { Play, Sprout } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -5,30 +7,29 @@ import { buttonVariants } from "@/components/ui/button";
 import { GreenhousePreview } from "@/components/landing/greenhouse-preview";
 import { StatsCard } from "@/components/landing/stats-card";
 import { Spark, DotGrid } from "@/components/landing/decor";
+import { useI18n } from "@/lib/i18n/context";
 
 export function Hero() {
+  const { t } = useI18n();
   return (
     <section className="relative overflow-hidden">
       <div className="mx-auto grid max-w-6xl items-center gap-14 px-5 py-16 md:py-24 lg:grid-cols-2">
         {/* Left column */}
         <div>
           <Badge tone="brand">
-            <Sprout className="h-3.5 w-3.5" /> Агротех-платформа
+            <Sprout className="h-3.5 w-3.5" /> {t("hero.badge")}
           </Badge>
           <h1 className="mt-5 font-display text-4xl leading-[1.05] font-extrabold tracking-tight text-ink sm:text-5xl lg:text-6xl">
-            Умный учёт
-            <br /> ваших теплиц
+            {t("hero.title1")}
+            <br /> {t("hero.title2")}
           </h1>
-          <p className="mt-5 max-w-md text-lg leading-relaxed text-muted">
-            Размечайте грядки на интерактивной карте, прогнозируйте дату сбора с учётом погоды и
-            считайте прибыль — всё в одном месте.
-          </p>
+          <p className="mt-5 max-w-md text-lg leading-relaxed text-muted">{t("hero.subtitle")}</p>
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <Link href="/register" className={buttonVariants({ variant: "primary", size: "lg" })}>
-              Начать бесплатно
+              {t("hero.ctaPrimary")}
             </Link>
             <a href="#how" className={buttonVariants({ variant: "outline", size: "lg" })}>
-              <Play className="h-4 w-4 fill-current" /> Как это работает
+              <Play className="h-4 w-4 fill-current" /> {t("hero.ctaSecondary")}
             </a>
           </div>
           <div className="mt-8 flex items-center gap-3 text-sm text-muted">
@@ -42,7 +43,7 @@ export function Hero() {
               ))}
             </div>
             <span>
-              Уже помогает вести <b className="text-ink">120+</b> теплиц
+              {t("hero.socialPre")} <b className="text-ink">120+</b> {t("hero.socialPost")}
             </span>
           </div>
         </div>
@@ -58,7 +59,7 @@ export function Hero() {
               <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white/20">
                 <Play className="h-3 w-3 fill-current" />
               </span>
-              Смотреть демо
+              {t("hero.demo")}
             </div>
           </div>
         </div>

@@ -1,36 +1,25 @@
+"use client";
+
 import { CalendarClock, Map, Wallet } from "lucide-react";
 import { IconBadge } from "@/components/ui/icon-badge";
-
-const steps = [
-  {
-    n: "01",
-    icon: Map,
-    title: "Разметьте карту",
-    desc: "Создайте теплицу, задайте размеры и выделите грядки под культуры на сетке 1 м².",
-  },
-  {
-    n: "02",
-    icon: CalendarClock,
-    title: "Рассчитайте урожай",
-    desc: "Arva прогнозирует дату сбора по индексу роста с учётом среды и корректирует её при изменениях.",
-  },
-  {
-    n: "03",
-    icon: Wallet,
-    title: "Считайте экономику",
-    desc: "Оцените урожайность, себестоимость и ожидаемую прибыль по каждой грядке и теплице целиком.",
-  },
-];
+import { useI18n } from "@/lib/i18n/context";
 
 export function HowItWorks() {
+  const { t } = useI18n();
+  const steps = [
+    { n: "01", icon: Map, title: t("how.s1t"), desc: t("how.s1d") },
+    { n: "02", icon: CalendarClock, title: t("how.s2t"), desc: t("how.s2d") },
+    { n: "03", icon: Wallet, title: t("how.s3t"), desc: t("how.s3d") },
+  ];
+
   return (
     <section id="how" className="mx-auto max-w-6xl px-5 py-20">
       <div className="max-w-2xl">
         <p className="font-display text-sm font-bold tracking-wide text-brand uppercase">
-          Как это работает
+          {t("how.eyebrow")}
         </p>
         <h2 className="mt-3 font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
-          Три шага до умной теплицы
+          {t("how.title")}
         </h2>
       </div>
       <div className="mt-12 grid gap-6 md:grid-cols-3">

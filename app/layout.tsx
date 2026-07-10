@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Montserrat } from "next/font/google";
+import { LocaleProvider } from "@/lib/i18n/context";
 import "./globals.css";
 
 const montserrat = Montserrat({
@@ -36,7 +37,7 @@ export default function RootLayout({
       className={`${montserrat.variable} ${inter.variable} h-full`}
     >
       <body className="flex min-h-full flex-col bg-paper font-sans text-ink antialiased">
-        {children}
+        <LocaleProvider>{children}</LocaleProvider>
       </body>
     </html>
   );

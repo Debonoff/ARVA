@@ -6,17 +6,19 @@ import { Menu, X } from "lucide-react";
 import { Logo } from "@/components/site/logo";
 import { LanguageSwitcher } from "@/components/site/language-switcher";
 import { buttonVariants } from "@/components/ui/button";
+import { useI18n } from "@/lib/i18n/context";
 import { cn } from "@/lib/utils";
 
-const NAV = [
-  { href: "#features", label: "Возможности" },
-  { href: "#how", label: "Как это работает" },
-  { href: "#faq", label: "FAQ" },
-];
-
 export function SiteHeader() {
+  const { t } = useI18n();
   const [scrolled, setScrolled] = useState(false);
   const [menu, setMenu] = useState(false);
+
+  const nav = [
+    { href: "#features", label: t("nav.features") },
+    { href: "#how", label: t("nav.how") },
+    { href: "#faq", label: t("nav.faq") },
+  ];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -35,12 +37,12 @@ export function SiteHeader() {
       )}
     >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">
-        <Link href="/" aria-label="Arva — на главную">
+        <Link href="/" aria-label="Arva">
           <Logo />
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">
-          {NAV.map((i) => (
+          {nav.map((i) => (
             <a
               key={i.href}
               href={i.href}
@@ -54,10 +56,10 @@ export function SiteHeader() {
         <div className="hidden items-center gap-3 md:flex">
           <LanguageSwitcher />
           <Link href="/login" className={buttonVariants({ variant: "ghost", size: "sm" })}>
-            Войти
+            {t("nav.login")}
           </Link>
           <Link href="/register" className={buttonVariants({ variant: "primary", size: "sm" })}>
-            Регистрация
+            {t("nav.register")}
           </Link>
         </div>
 
@@ -65,7 +67,7 @@ export function SiteHeader() {
           type="button"
           className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-line md:hidden"
           onClick={() => setMenu((m) => !m)}
-          aria-label="Меню"
+          aria-label="Menu"
           aria-expanded={menu}
         >
           {menu ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -75,7 +77,7 @@ export function SiteHeader() {
       {menu && (
         <div className="border-t border-line bg-paper md:hidden">
           <nav className="mx-auto flex max-w-6xl flex-col gap-1 px-5 py-4">
-            {NAV.map((i) => (
+            {nav.map((i) => (
               <a
                 key={i.href}
                 href={i.href}
@@ -94,7 +96,7 @@ export function SiteHeader() {
                   className: "flex-1",
                 })}
               >
-                Войти
+                {t("nav.login")}
               </Link>
               <Link
                 href="/register"
@@ -104,7 +106,7 @@ export function SiteHeader() {
                   className: "flex-1",
                 })}
               >
-                Регистрация
+                {t("nav.register")}
               </Link>
             </div>
             <div className="mt-3">

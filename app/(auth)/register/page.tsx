@@ -6,11 +6,13 @@ import { useRouter } from "next/navigation";
 import { Info } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { useI18n } from "@/lib/i18n/context";
 import { Button } from "@/components/ui/button";
 import { Input, Label } from "@/components/ui/input";
 
 export default function RegisterPage() {
   const router = useRouter();
+  const { t } = useI18n();
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
@@ -44,20 +46,22 @@ export default function RegisterPage() {
 
   return (
     <div className="rounded-3xl border border-line bg-paper p-8 shadow-card">
-      <h1 className="font-display text-2xl font-extrabold tracking-tight text-ink">Регистрация</h1>
-      <p className="mt-1 text-sm text-muted">Создайте аккаунт Arva.</p>
+      <h1 className="font-display text-2xl font-extrabold tracking-tight text-ink">
+        {t("auth.registerTitle")}
+      </h1>
+      <p className="mt-1 text-sm text-muted">{t("auth.registerSubtitle")}</p>
 
       {!isSupabaseConfigured && (
         <p className="mt-4 flex items-start gap-2 rounded-xl bg-brand-50 p-3 text-xs text-brand-dark">
           <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-          Supabase не подключён — вход в демо-режиме, данные хранятся в браузере.
+          {t("auth.demoNotice")}
         </p>
       )}
 
       <form onSubmit={submit} className="mt-6 space-y-4">
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <Label htmlFor="name">Имя</Label>
+            <Label htmlFor="name">{t("auth.name")}</Label>
             <Input
               id="name"
               value={name}
@@ -66,7 +70,7 @@ export default function RegisterPage() {
             />
           </div>
           <div>
-            <Label htmlFor="surname">Фамилия</Label>
+            <Label htmlFor="surname">{t("auth.surname")}</Label>
             <Input
               id="surname"
               value={surname}
@@ -76,7 +80,7 @@ export default function RegisterPage() {
           </div>
         </div>
         <div>
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">{t("auth.email")}</Label>
           <Input
             id="email"
             type="email"
@@ -87,7 +91,7 @@ export default function RegisterPage() {
           />
         </div>
         <div>
-          <Label htmlFor="password">Пароль</Label>
+          <Label htmlFor="password">{t("auth.password")}</Label>
           <Input
             id="password"
             type="password"
@@ -102,14 +106,14 @@ export default function RegisterPage() {
         {error && <p className="text-sm text-red-600">{error}</p>}
 
         <Button type="submit" className="w-full" disabled={loading}>
-          {loading ? "Создаём…" : "Создать аккаунт"}
+          {loading ? t("auth.creating") : t("auth.createAccount")}
         </Button>
       </form>
 
       <p className="mt-6 text-center text-sm text-muted">
-        Уже есть аккаунт?{" "}
+        {t("auth.haveAccount")}{" "}
         <Link href="/login" className="font-medium text-brand">
-          Войти
+          {t("auth.signIn")}
         </Link>
       </p>
     </div>
