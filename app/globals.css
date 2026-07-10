@@ -1,26 +1,47 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ------------------------------------------------------------------ *
+ * Arva design system — black / white + green
+ * Tailwind v4 CSS-first theme. Tokens below generate utilities, e.g.
+ * `bg-ink`, `text-brand`, `border-line`, `shadow-card`, `font-display`.
+ * ------------------------------------------------------------------ */
+@theme {
+  /* Neutrals */
+  --color-ink: #0f1512; /* near-black, faint green */
+  --color-ink-soft: #1a2621;
+  --color-paper: #ffffff;
+  --color-paper-soft: #f4f6f3; /* light panel */
+  --color-line: #e6e9e3;
+  --color-muted: #64726b;
+
+  /* Brand green */
+  --color-brand: #16a34a;
+  --color-brand-dark: #15803d;
+  --color-brand-light: #22c55e;
+  --color-brand-50: #f0fdf4;
+  --color-brand-100: #dcfce7;
+  --color-brand-200: #bbf7d0;
+
+  /* Elevation */
+  --shadow-card: 0 1px 2px rgba(15, 21, 18, 0.04), 0 10px 34px rgba(15, 21, 18, 0.06);
+  --shadow-float: 0 24px 64px rgba(15, 21, 18, 0.18);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-montserrat);
+  --font-sans: var(--font-inter);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    scroll-behavior: smooth;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  body {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background-color: var(--color-brand-100);
+    color: var(--color-brand-dark);
+  }
 }
