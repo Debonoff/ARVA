@@ -4,8 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { ArrowLeft, Droplets, Ruler } from "lucide-react";
-import { useGreenhouse } from "@/lib/store";
-import { useMounted } from "@/lib/use-mounted";
+import { useGreenhouse, useStoreReady } from "@/lib/store";
 import { GreenhouseGrid, type Rect } from "@/components/map/greenhouse-grid";
 import { AreaPanel } from "@/components/map/area-panel";
 import { EnvControls } from "@/components/map/env-controls";
@@ -13,12 +12,12 @@ import { SummaryTable } from "@/components/map/summary-table";
 
 export default function GreenhouseMapPage() {
   const params = useParams<{ id: string }>();
-  const mounted = useMounted();
+  const ready = useStoreReady();
   const greenhouse = useGreenhouse(params.id);
   const [selectedAreaId, setSelectedAreaId] = useState<string | null>(null);
   const [draft, setDraft] = useState<Rect | null>(null);
 
-  if (!mounted) {
+  if (!ready) {
     return <div className="mx-auto h-96 max-w-6xl animate-pulse rounded-3xl bg-paper-soft" />;
   }
 

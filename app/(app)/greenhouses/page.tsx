@@ -3,17 +3,28 @@
 import Link from "next/link";
 import { useState } from "react";
 import { ArrowRight, Droplets, Plus, Ruler, Sprout, Trash2 } from "lucide-react";
-import { createGreenhouse, removeGreenhouse, useGreenhouses } from "@/lib/store";
+import { createGreenhouse, removeGreenhouse, useGreenhouses, useStoreReady } from "@/lib/store";
 import { Button } from "@/components/ui/button";
 import { Input, Label } from "@/components/ui/input";
 
 export default function GreenhousesPage() {
   const greenhouses = useGreenhouses();
+  const ready = useStoreReady();
   const [creating, setCreating] = useState(false);
   const [name, setName] = useState("");
   const [length, setLength] = useState("10");
   const [width, setWidth] = useState("6");
   const [hydro, setHydro] = useState(false);
+
+  if (!ready) {
+    return (
+      <div className="mx-auto grid max-w-5xl gap-4 sm:grid-cols-2">
+        {Array.from({ length: 2 }).map((_, i) => (
+          <div key={i} className="h-40 animate-pulse rounded-3xl bg-paper-soft" />
+        ))}
+      </div>
+    );
+  }
 
   function submit(e: React.FormEvent) {
     e.preventDefault();

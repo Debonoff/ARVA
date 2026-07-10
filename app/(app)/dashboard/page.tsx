@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import { AlertTriangle, CalendarClock, Coins, Leaf, Sprout, TrendingUp } from "lucide-react";
-import { updateGreenhouse, useGreenhouses } from "@/lib/store";
-import { useMounted } from "@/lib/use-mounted";
+import { updateGreenhouse, useGreenhouses, useStoreReady } from "@/lib/store";
 import { getCrop } from "@/lib/crops";
 import { estimatedRevenue, forecastHarvest, totalYieldKg, type HarvestForecast } from "@/lib/calc";
 import { formatDate, formatKg, formatMoney } from "@/lib/format";
@@ -31,9 +30,9 @@ function adaptiveMessage(f: HarvestForecast): {
 
 export default function DashboardPage() {
   const greenhouses = useGreenhouses();
-  const mounted = useMounted();
+  const ready = useStoreReady();
 
-  if (!mounted) {
+  if (!ready) {
     return (
       <div className="mx-auto grid max-w-6xl gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {Array.from({ length: 4 }).map((_, i) => (
