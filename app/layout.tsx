@@ -1,17 +1,19 @@
 import type { Metadata } from "next";
-import { Inter, Montserrat } from "next/font/google";
+import { Manrope, Unbounded } from "next/font/google";
 import { LocaleProvider } from "@/lib/i18n/context";
 import "./globals.css";
 
-const montserrat = Montserrat({
+// Text/UI: Manrope (geometric grotesque, strong Cyrillic).
+const manrope = Manrope({
   subsets: ["latin", "cyrillic"],
-  variable: "--font-montserrat",
+  variable: "--font-manrope",
   display: "swap",
 });
 
-const inter = Inter({
+// Display/wordmark: Unbounded (distinctive geometry, Cyrillic).
+const unbounded = Unbounded({
   subsets: ["latin", "cyrillic"],
-  variable: "--font-inter",
+  variable: "--font-unbounded",
   display: "swap",
 });
 
@@ -34,7 +36,7 @@ export default function RootLayout({
     <html
       lang="ru"
       data-scroll-behavior="smooth"
-      className={`${montserrat.variable} ${inter.variable} h-full`}
+      className={`${manrope.variable} ${unbounded.variable} h-full`}
     >
       <body className="flex min-h-full flex-col bg-paper font-sans text-ink antialiased">
         <LocaleProvider>{children}</LocaleProvider>

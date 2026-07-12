@@ -1,10 +1,12 @@
 import { cn } from "@/lib/utils";
 
+// Крышки грядок используют приглушённую землистую палитру культур (это ДАННЫЕ,
+// не хром): зелёный бренда, олива, тил, охра. Никаких красного/лайма.
 const beds = [
-  { label: "Клубника", color: "#ef4444", pos: "left-[6%] top-[9%] h-[32%] w-[40%]" },
+  { label: "Клубника", color: "#b45309", pos: "left-[6%] top-[9%] h-[32%] w-[40%]" },
   { label: "Томаты", color: "#16a34a", pos: "left-[52%] top-[9%] h-[46%] w-[42%]" },
-  { label: "Огурцы", color: "#22c55e", pos: "left-[6%] top-[49%] h-[42%] w-[40%]" },
-  { label: "Салат", color: "#84cc16", pos: "left-[52%] top-[63%] h-[28%] w-[42%]" },
+  { label: "Огурцы", color: "#4d7c0f", pos: "left-[6%] top-[49%] h-[42%] w-[40%]" },
+  { label: "Салат", color: "#0f766e", pos: "left-[52%] top-[63%] h-[28%] w-[42%]" },
 ];
 
 /** Stylised preview of the greenhouse grid map (the core product screen). */
@@ -31,7 +33,7 @@ export function GreenhousePreview({ className }: { className?: string }) {
           style={{ backgroundColor: `${b.color}1a`, borderColor: `${b.color}59` }}
         >
           <span
-            className="inline-flex items-center gap-1 rounded-full bg-white/90 px-2 py-0.5 text-[11px] font-semibold shadow-sm"
+            className="inline-flex items-center gap-1 rounded-[2px] bg-white/90 px-2 py-0.5 text-[11px] font-semibold shadow-sm"
             style={{ color: b.color }}
           >
             <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: b.color }} />

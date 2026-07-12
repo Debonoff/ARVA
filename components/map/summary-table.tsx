@@ -10,7 +10,7 @@ export function SummaryTable({ greenhouse }: { greenhouse: Greenhouse }) {
     const key = a.cropId ?? "none";
     const row = map.get(key) ?? {
       name: crop?.name ?? "Без культуры",
-      color: crop?.color ?? "#94a3b8",
+      color: crop?.color ?? "#64726b",
       areaM2: 0,
       plants: 0,
     };

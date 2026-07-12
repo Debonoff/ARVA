@@ -51,7 +51,7 @@ export function Faq() {
       </div>
 
       {/* Final CTA */}
-      <div className="relative mt-16 overflow-hidden rounded-[2rem] bg-ink px-6 py-14 text-center sm:px-12">
+      <div className="relative mt-16 overflow-hidden rounded-[2px] bg-ink px-6 py-14 text-center sm:px-12">
         <h2 className="mx-auto max-w-2xl font-display text-3xl font-extrabold tracking-tight text-paper sm:text-4xl">
           {t("faq.ctaTitle")}
         </h2>

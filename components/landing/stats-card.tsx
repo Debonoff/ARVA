@@ -18,8 +18,8 @@ export function StatsCard({ className }: { className?: string }) {
               <span className="text-white/80">{r.label}</span>
               <span className="font-semibold">{r.pct}%</span>
             </div>
-            <div className="mt-1.5 h-1.5 rounded-full bg-white/10">
-              <div className="h-full rounded-full bg-brand-light" style={{ width: `${r.pct}%` }} />
+            <div className="mt-1.5 h-1.5 rounded-[2px] bg-white/10">
+              <div className="h-full rounded-[2px] bg-brand-light" style={{ width: `${r.pct}%` }} />
             </div>
           </div>
         ))}

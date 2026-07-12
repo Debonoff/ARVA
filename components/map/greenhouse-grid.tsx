@@ -118,7 +118,7 @@ export function GreenhouseGrid({
               }}
             >
               <span
-                className="inline-flex items-center gap-1 rounded-full bg-white/90 px-1.5 py-0.5 text-[10px] font-semibold shadow-sm"
+                className="inline-flex items-center gap-1 rounded-[2px] bg-white/90 px-1.5 py-0.5 text-[10px] font-semibold shadow-sm"
                 style={{ color: a.color }}
               >
                 <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: a.color }} />
@@ -136,8 +136,8 @@ export function GreenhouseGrid({
               top: selRect.y * CELL,
               width: selRect.width * CELL,
               height: selRect.height * CELL,
-              borderColor: selInvalid ? "#ef4444" : "#16a34a",
-              backgroundColor: selInvalid ? "#ef44441f" : "#16a34a1f",
+              borderColor: selInvalid ? "#0f1512" : "#16a34a",
+              backgroundColor: selInvalid ? "#0f15121f" : "#16a34a1f",
             }}
           />
         )}

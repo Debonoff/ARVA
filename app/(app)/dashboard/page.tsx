@@ -151,9 +151,9 @@ export default function DashboardPage() {
                   <span className="text-muted">Готовность</span>
                   <span className="font-semibold text-ink tabular-nums">{pct}%</span>
                 </div>
-                <div className="mt-1.5 h-2 rounded-full bg-paper-soft">
+                <div className="mt-1.5 h-2 rounded-[2px] bg-paper-soft">
                   <div
-                    className="h-full rounded-full bg-brand transition-all"
+                    className="h-full rounded-[2px] bg-brand transition-all"
                     style={{ width: `${pct}%` }}
                   />
                 </div>
@@ -174,8 +174,8 @@ export default function DashboardPage() {
                 <div
                   className={cn(
                     "mt-4 flex items-start gap-2 rounded-xl p-3 text-xs",
-                    msg.tone === "danger" && "bg-red-50 text-red-700",
-                    msg.tone === "warn" && "bg-amber-50 text-amber-700",
+                    msg.tone === "danger" && "bg-paper-soft text-ink",
+                    msg.tone === "warn" && "bg-paper-soft text-ink",
                     msg.tone === "ok" && "bg-brand-50 text-brand-dark",
                   )}
                 >
@@ -271,7 +271,7 @@ export default function DashboardPage() {
                     <span
                       className={cn(
                         "mt-1 block font-display text-lg font-bold tabular-nums",
-                        profit >= 0 ? "text-brand-dark" : "text-red-600",
+                        profit >= 0 ? "text-brand-dark" : "text-ink",
                       )}
                     >
                       {formatMoney(profit)}

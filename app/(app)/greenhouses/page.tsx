@@ -141,7 +141,7 @@ export default function GreenhousesPage() {
                 <button
                   type="button"
                   onClick={() => removeGreenhouse(g.id)}
-                  className="rounded-lg p-2 text-muted transition-colors hover:bg-paper-soft hover:text-red-500"
+                  className="rounded-lg p-2 text-muted transition-colors hover:bg-paper-soft hover:text-ink"
                   aria-label="Удалить теплицу"
                 >
                   <Trash2 className="h-4 w-4" />

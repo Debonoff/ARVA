@@ -52,7 +52,7 @@ function seed(): Greenhouse[] {
           height: 2,
           plantCount: 48,
           plantedOn: isoDaysAgo(40),
-          color: "#ef4444",
+          color: "#b45309",
         },
         {
           id: uid(),
@@ -63,7 +63,7 @@ function seed(): Greenhouse[] {
           height: 3,
           plantCount: 24,
           plantedOn: isoDaysAgo(28),
-          color: "#f59e0b",
+          color: "#16a34a",
         },
         {
           id: uid(),
@@ -74,7 +74,7 @@ function seed(): Greenhouse[] {
           height: 2,
           plantCount: 20,
           plantedOn: isoDaysAgo(15),
-          color: "#16a34a",
+          color: "#4d7c0f",
         },
         {
           id: uid(),
@@ -85,7 +85,7 @@ function seed(): Greenhouse[] {
           height: 1,
           plantCount: 40,
           plantedOn: isoDaysAgo(10),
-          color: "#84cc16",
+          color: "#0f766e",
         },
       ],
     },

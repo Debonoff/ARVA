@@ -22,14 +22,25 @@
   --color-brand-100: #dcfce7;
   --color-brand-200: #bbf7d0;
 
-  /* Elevation */
-  --shadow-card: 0 1px 2px rgba(15, 21, 18, 0.04), 0 10px 34px rgba(15, 21, 18, 0.06);
-  --shadow-float: 0 24px 64px rgba(15, 21, 18, 0.18);
+  /* Elevation — minimal, flat (no glow) per the minimalist system */
+  --shadow-card: 0 1px 2px rgba(15, 21, 18, 0.05);
+  --shadow-float: 0 8px 28px rgba(15, 21, 18, 0.12);
+
+  /* Sharp corners: collapse the whole radius scale to a near-square 2px.
+     rounded-full is not token-based, so dots/avatars stay round. */
+  --radius-xs: 2px;
+  --radius-sm: 2px;
+  --radius-md: 2px;
+  --radius-lg: 2px;
+  --radius-xl: 2px;
+  --radius-2xl: 2px;
+  --radius-3xl: 2px;
+  --radius-4xl: 2px;
 }
 
 @theme inline {
-  --font-display: var(--font-montserrat);
-  --font-sans: var(--font-inter);
+  --font-display: var(--font-unbounded);
+  --font-sans: var(--font-manrope);
 }
 
 @layer base {

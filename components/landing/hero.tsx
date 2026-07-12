@@ -34,7 +34,7 @@ export function Hero() {
           </div>
           <div className="mt-8 flex items-center gap-3 text-sm text-muted">
             <div className="flex -space-x-2">
-              {["#16a34a", "#22c55e", "#84cc16"].map((c) => (
+              {["#16a34a", "#15803d", "#22c55e"].map((c) => (
                 <span
                   key={c}
                   className="h-8 w-8 rounded-full border-2 border-paper"
@@ -52,11 +52,11 @@ export function Hero() {
         <div className="relative">
           <Spark className="absolute -top-6 -left-4 z-10 h-16 w-16 text-brand" />
           <DotGrid className="absolute -right-4 -bottom-6 text-line" />
-          <div className="relative rounded-[2rem] bg-paper-soft p-4 sm:p-6">
+          <div className="relative rounded-[2px] bg-paper-soft p-4 sm:p-6">
             <GreenhousePreview />
             <StatsCard className="absolute -bottom-6 -left-4 hidden sm:block" />
-            <div className="absolute top-10 right-6 inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-sm font-semibold text-white shadow-float">
-              <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white/20">
+            <div className="absolute top-10 right-6 inline-flex items-center gap-2 rounded-[2px] bg-brand px-4 py-2 text-sm font-semibold text-white shadow-float">
+              <span className="inline-flex h-6 w-6 items-center justify-center rounded-[2px] bg-white/20">
                 <Play className="h-3 w-3 fill-current" />
               </span>
               {t("hero.demo")}
