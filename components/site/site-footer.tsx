@@ -10,7 +10,8 @@ export function SiteFooter() {
     {
       title: t("footer.product"),
       links: [
-        [t("nav.features"), "#features"],
+        [t("nav.map"), "#map"],
+        [t("nav.crops"), "#crops"],
         [t("nav.how"), "#how"],
         [t("nav.faq"), "#faq"],
       ],

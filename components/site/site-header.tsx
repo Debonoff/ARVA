@@ -15,7 +15,8 @@ export function SiteHeader() {
   const [menu, setMenu] = useState(false);
 
   const nav = [
-    { href: "#features", label: t("nav.features") },
+    { href: "#map", label: t("nav.map") },
+    { href: "#crops", label: t("nav.crops") },
     { href: "#how", label: t("nav.how") },
     { href: "#faq", label: t("nav.faq") },
   ];

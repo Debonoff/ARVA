@@ -36,6 +36,18 @@
   --radius-2xl: 2px;
   --radius-3xl: 2px;
   --radius-4xl: 2px;
+
+  /* Map status palette (the ONE data-color exception; muted/earthy).
+     Defined here in @theme so Tailwind reliably emits them as :root vars,
+     referenced via var(--map-*) by the farm-map CSS and inline styles. */
+  --map-planted: #16a34a;
+  --map-growing: #65a30d;
+  --map-ready: #d97706;
+  --map-empty: #9c8f82;
+  --map-planted-weak: rgba(22, 163, 74, 0.12);
+  --map-growing-weak: rgba(101, 163, 13, 0.13);
+  --map-ready-weak: rgba(217, 119, 6, 0.13);
+  --map-empty-weak: rgba(156, 143, 130, 0.1);
 }
 
 @theme inline {
@@ -55,4 +67,135 @@
     background-color: var(--color-brand-100);
     color: var(--color-brand-dark);
   }
+}
+
+/* ===================== interactive farm map (ported from JS version) ===================== */
+.map-wrap { margin-top: 32px; }
+.map-toolbar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+.map-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.map-chip {
+  display: inline-flex; align-items: center; gap: 7px; height: 32px; padding: 0 12px;
+  font-family: inherit; font-size: 13px; font-weight: 600; color: var(--color-ink);
+  background: var(--color-paper); border: 1px solid var(--color-line); border-radius: 2px;
+  cursor: pointer; transition: border-color .12s ease, color .12s ease, background .12s ease;
+}
+.map-chip:hover { border-color: var(--color-muted); }
+.map-chip.active { background: var(--color-ink); color: #fff; border-color: var(--color-ink); }
+.map-chip .dot { width: 8px; height: 8px; border-radius: 2px; background: currentColor; flex-shrink: 0; }
+.map-planswitch {
+  margin-left: auto; display: inline-flex; align-items: center; gap: 9px;
+  font-size: 13px; font-weight: 600; color: var(--color-ink); cursor: pointer; user-select: none;
+}
+.map-switch {
+  position: relative; width: 38px; height: 22px; border-radius: 2px;
+  background: var(--color-line); border: 1px solid var(--color-line);
+  transition: background .16s ease, border-color .16s ease; flex-shrink: 0;
+}
+.map-switch::after {
+  content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px;
+  border-radius: 1px; background: #fff; transition: transform .16s ease;
+}
+.map-planswitch.on .map-switch { background: var(--color-brand); border-color: var(--color-brand); }
+.map-planswitch.on .map-switch::after { transform: translateX(16px); }
+
+.map-stage {
+  position: relative; overflow: hidden; background: var(--color-paper-soft);
+  border: 1px solid var(--color-line); border-radius: 2px;
+}
+.map-canvas { position: relative; }
+.map-svg { display: block; width: 100%; height: auto; }
+
+.parcel {
+  cursor: pointer; animation: parcelIn .5s ease backwards; animation-delay: calc(var(--i, 0) * 55ms);
+  transition: opacity .25s ease, transform .25s cubic-bezier(.2,.8,.2,1);
+}
+.parcel:focus { outline: none; }
+.parcel-body { transition: stroke-width .12s ease, stroke .12s ease; stroke-width: 1.75; }
+.parcel.planted .parcel-body { fill: var(--map-planted-weak); stroke: var(--map-planted); }
+.parcel.growing .parcel-body { fill: var(--map-growing-weak); stroke: var(--map-growing); }
+.parcel.ready .parcel-body { fill: var(--map-ready-weak); stroke: var(--map-ready); }
+.parcel.empty .parcel-body { fill: var(--map-empty-weak); stroke: var(--map-empty); stroke-dasharray: 6 5; }
+.parcel.planned .parcel-body { fill: var(--color-brand-50); stroke: var(--color-brand); stroke-dasharray: 6 5; }
+.parcel .roof { stroke: currentColor; opacity: .4; stroke-width: 1; }
+.parcel .p-name { font-weight: 700; letter-spacing: -.02em; fill: var(--color-ink); }
+.parcel .p-crop { fill: var(--color-muted); }
+
+.map-stage:not(.has-sel) .parcel:hover { transform: translateY(-3px); }
+.map-stage:not(.has-sel) .parcel:hover .parcel-body { stroke-width: 3; }
+.parcel:focus-visible .parcel-body { stroke: var(--color-ink); stroke-width: 3; }
+.parcel.selected .parcel-body { stroke-width: 3.25; }
+.parcel.dim { opacity: .3; }
+
+.map-zoom { transform-box: view-box; transform-origin: 0 0; transition: transform .5s cubic-bezier(.2,.8,.2,1); }
+.ready-pulse { transform-box: fill-box; transform-origin: center; animation: readyPulse 2.4s ease-in-out infinite; }
+
+@keyframes parcelIn { from { opacity: 0; transform: scale(.92) translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes readyPulse { 0%,100% { opacity: .9; transform: scale(1); } 50% { opacity: .35; transform: scale(1.7); } }
+
+.map-tip {
+  position: absolute; z-index: 4; transform: translate(-50%, calc(-100% - 14px));
+  background: var(--color-ink); color: #fff; border-radius: 2px; padding: 7px 10px;
+  font-size: 12.5px; line-height: 1.35; white-space: nowrap; pointer-events: none;
+  box-shadow: 0 4px 16px rgba(15, 21, 18, .16);
+}
+.map-tip.below { transform: translate(-50%, 14px); }
+.map-tip b { font-weight: 700; }
+.map-tip span { color: rgba(255, 255, 255, 0.66); }
+
+.map-panel {
+  position: absolute; top: 0; right: 0; bottom: 0; width: 340px; max-width: 88%;
+  background: var(--color-paper); border-left: 1px solid var(--color-line); padding: 20px;
+  overflow-y: auto; transform: translateX(101%); transition: transform .4s cubic-bezier(.2,.8,.2,1); z-index: 5;
+}
+.map-panel.open { transform: none; }
+.map-panel-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 4px; }
+.map-panel-type { font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--color-muted); }
+.map-panel h3 { font-size: 20px; margin: 2px 0 0; }
+.map-badge {
+  display: inline-flex; align-items: center; gap: 7px; height: 26px; padding: 0 10px;
+  border-radius: 2px; font-size: 12px; font-weight: 700; border: 1px solid transparent; margin: 14px 0 18px;
+}
+.map-badge .dot { width: 8px; height: 8px; border-radius: 2px; background: currentColor; }
+.map-crophero {
+  display: flex; align-items: center; gap: 12px; padding: 14px; border: 1px solid var(--color-line);
+  border-radius: 2px; background: var(--color-paper-soft); margin-bottom: 16px;
+}
+.map-crophero .ic {
+  width: 42px; height: 42px; border-radius: 2px; display: grid; place-items: center;
+  background: var(--color-paper); border: 1px solid var(--color-line); flex-shrink: 0;
+}
+.map-crophero .lbl { font-size: 12px; color: var(--color-muted); font-weight: 600; }
+.map-crophero .val { font-size: 16px; font-weight: 700; letter-spacing: -.01em; }
+.map-kv { display: flex; justify-content: space-between; gap: 12px; padding: 11px 0; border-top: 1px solid var(--color-line); font-size: 14px; }
+.map-kv .k { color: var(--color-muted); }
+.map-kv .v { color: var(--color-ink); font-weight: 600; text-align: right; }
+.map-note { margin-top: 14px; font-size: 13.5px; color: var(--color-muted); line-height: 1.5; }
+
+.map-choose-hint { font-size: 13px; color: var(--color-muted); margin: 8px 0 12px; }
+.map-choose { display: flex; flex-wrap: wrap; gap: 7px; }
+.map-choose-chip {
+  display: inline-flex; align-items: center; gap: 7px; height: 32px; padding: 0 11px;
+  font-family: inherit; font-size: 13px; font-weight: 600; color: var(--color-ink);
+  background: var(--color-paper); border: 1px solid var(--color-line); border-radius: 2px;
+  cursor: pointer; transition: border-color .12s ease, background .12s ease;
+}
+.map-choose-chip:hover { border-color: var(--color-muted); }
+.map-choose-chip.active { background: var(--color-brand); color: #fff; border-color: var(--color-brand); }
+
+.map-legend { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 14px; }
+.map-leg-item { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--color-ink); }
+.map-leg-dot { width: 12px; height: 12px; border-radius: 2px; border: 1.5px solid; }
+
+@media (max-width: 900px) { .map-panel { width: 300px; } }
+@media (max-width: 560px) {
+  .map-planswitch { margin-left: 0; }
+  .map-panel {
+    top: auto; left: 0; width: 100%; max-width: 100%; max-height: 72%;
+    border-left: none; border-top: 1px solid var(--color-line); transform: translateY(101%);
+  }
+  .map-panel.open { transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .parcel, .ready-pulse { animation: none; }
+  .parcel, .map-zoom, .map-panel { transition: none; }
 }
