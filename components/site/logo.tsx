@@ -1,24 +1,25 @@
 import { cn } from "@/lib/utils";
 
+// Логотип-вордмарк ARVA: реальные контуры глифов шрифта Jura Bold (weight 700),
+// извлечённые из самого шрифта. У буквы A убрана перекладина (открытый треугольник),
+// как в макете. Координаты — в единицах шрифта (UPM 2000); группа переворачивает
+// ось Y (шрифт y-вверх -> SVG y-вниз), базовая линия на y=1356. Красится через
+// currentColor, поэтому работает на светлом/тёмном фоне.
 export function Logo({ className, onDark = false }: { className?: string; onDark?: boolean }) {
   return (
-    <span
-      className={cn(
-        "inline-flex items-center gap-2 font-display text-xl font-extrabold tracking-tight",
-        onDark ? "text-paper" : "text-ink",
-        className,
-      )}
+    <svg
+      viewBox="0 0 5200 1380"
+      role="img"
+      aria-label="Arva"
+      fill="currentColor"
+      className={cn("h-8 w-auto", onDark ? "text-paper" : "text-ink", className)}
     >
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M12 2C7 6 5 10 5 14a7 7 0 0 0 14 0c0-4-2-8-7-12Z" fill="var(--color-brand)" />
-        <path
-          d="M12 9v9M12 12l3-2M12 15l-3-2"
-          stroke="white"
-          strokeWidth="1.4"
-          strokeLinecap="round"
-        />
-      </svg>
-      Arva<span className="text-brand">.</span>
-    </span>
+      <g transform="matrix(1 0 0 -1 0 1356)">
+        <path transform="translate(0 0)" d="M144 8Q64 39 96 118L572 1290Q602 1356 666 1356L670 1356Q735 1353 758 1290L1242 118Q1274 39 1196 8Q1117 -23 1086 54L660 1090L252 54Q221 -24 144 8Z" />
+        <path transform="translate(1332 0)" d="M1080 -4Q1047 -25 1017.0 -17.0Q987 -9 966 24L656 540H376V84Q376 0 292 0Q208 0 208 84V1272Q208 1356 292 1356H760Q943 1356 1040.5 1258.5Q1138 1161 1138 978V918Q1138 759 1064.0 664.5Q990 570 850 547L1112 110Q1150 40 1080 -4ZM376 708H760Q874 708 922.0 756.0Q970 804 970 918V978Q970 1091 922.0 1139.5Q874 1188 760 1188H376Z" />
+        <path transform="translate(2582 0)" d="M634 0Q582 0 552 66L58 1236Q43 1271 50.0 1298.5Q57 1326 96 1344Q178 1385 212 1302L679 196H621L1076 1302Q1109 1384 1192 1344Q1227 1326 1235.5 1298.5Q1244 1271 1230 1236L732 66Q701 0 642 0Z" />
+        <path transform="translate(3868 0)" d="M144 8Q64 39 96 118L572 1290Q602 1356 666 1356L670 1356Q735 1353 758 1290L1242 118Q1274 39 1196 8Q1117 -23 1086 54L660 1090L252 54Q221 -24 144 8Z" />
+      </g>
+    </svg>
   );
 }
